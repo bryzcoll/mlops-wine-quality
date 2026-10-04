@@ -1,0 +1,8 @@
+pandas
+numpy
+matplotlib
+ucimlrepo
+wandb
+jupyter
+mlflow==3.16.1
+scikit-learn==1.9.1
