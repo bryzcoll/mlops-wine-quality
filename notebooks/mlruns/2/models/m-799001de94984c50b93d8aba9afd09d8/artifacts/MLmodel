@@ -1,0 +1,24 @@
+artifact_path: /home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/notebooks/mlruns/2/models/m-799001de94984c50b93d8aba9afd09d8/artifacts
+flavors:
+  python_function:
+    env:
+      conda: conda.yaml
+      virtualenv: python_env.yaml
+    loader_module: mlflow.sklearn
+    model_path: model.skops
+    predict_fn: predict
+    python_version: 3.13.2
+  sklearn:
+    code: null
+    pickled_model: model.skops
+    serialization_format: skops
+    sklearn_version: 1.9.1
+    skops_trusted_types:
+    - sklearn.tree._tree.Tree
+mlflow_version: 3.16.1
+model_id: m-799001de94984c50b93d8aba9afd09d8
+model_size_bytes: 14824652
+model_uuid: m-799001de94984c50b93d8aba9afd09d8
+prompts: null
+run_id: afb686e4b77f4c1d873e87e97e0c8f49
+utc_time_created: '2026-10-05 02:04:15.962155'
