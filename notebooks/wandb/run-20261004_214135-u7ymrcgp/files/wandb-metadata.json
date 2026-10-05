@@ -1,0 +1,17 @@
+{
+  "os": "Linux-7.0.0-34-generic-x86_64-with-glibc2.39",
+  "python": "CPython 3.13.2",
+  "startedAt": "2026-10-05T02:41:35.710587Z",
+  "program": "/home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/notebooks/wine_quality_mlops.ipynb",
+  "codePath": "/home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/notebooks/wine_quality_mlops.ipynb",
+  "codePathLocal": "wine_quality_mlops.ipynb",
+  "git": {
+    "remote": "https://github.com/bryzcoll/mlops-wine-quality.git",
+    "commit": "fc240d481b68ae8ce7066379f64add106e4c48c1"
+  },
+  "email": "bryzcoll@gmail.com",
+  "root": "/home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/notebooks",
+  "host": "bryzcoll-OMEN-by-HP",
+  "executable": "/home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/.venv/bin/python",
+  "writerId": "9nbijgdtc9vcn00dp0xtbvdbsn4594tn"
+}

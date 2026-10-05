@@ -1,0 +1,65 @@
+_wandb:
+    value:
+        cli_version: 0.30.0
+        e:
+            idzkzzabej8bbopz12owm9usijupnsgo:
+                codePath: /home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/notebooks/wine_quality_mlops.ipynb
+                codePathLocal: wine_quality_mlops.ipynb
+                cpu_count: 14
+                cpu_count_logical: 20
+                cudaVersion: "13.2"
+                disk:
+                    /:
+                        total: "146509295616"
+                        used: "115094630400"
+                email: bryzcoll@gmail.com
+                executable: /home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/.venv/bin/python
+                git:
+                    commit: fc240d481b68ae8ce7066379f64add106e4c48c1
+                    remote: https://github.com/bryzcoll/mlops-wine-quality.git
+                gpu: NVIDIA GeForce RTX 3060 Laptop GPU
+                gpu_count: 1
+                gpu_nvidia:
+                    - architecture: Ampere
+                      cudaCores: 3840
+                      memoryTotal: "6442450944"
+                      name: NVIDIA GeForce RTX 3060 Laptop GPU
+                      uuid: GPU-b8faaf87-dcfd-9950-d5c0-97f948e82fb3
+                host: bryzcoll-OMEN-by-HP
+                memory:
+                    total: "16410890240"
+                os: Linux-7.0.0-34-generic-x86_64-with-glibc2.39
+                program: /home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/notebooks/wine_quality_mlops.ipynb
+                python: CPython 3.13.2
+                root: /home/bryzcoll/Escritorio/9no/Ciencia de Datos/MLOps/mlops-wine-quality/notebooks
+                startedAt: "2026-10-05T02:42:03.149578Z"
+                writerId: idzkzzabej8bbopz12owm9usijupnsgo
+        m: []
+        python_version: 3.13.2
+        t:
+            "1":
+                - 5
+                - 53
+            "2":
+                - 5
+                - 53
+            "3":
+                - 2
+                - 13
+                - 16
+            "4": 3.13.2
+            "5": 0.30.0
+            "8":
+                - 1
+            "12": 0.30.0
+            "13": linux-x86_64
+max_depth:
+    value: null
+min_samples_leaf:
+    value: 2
+min_samples_split:
+    value: 2
+n_estimators:
+    value: 200
+random_state:
+    value: 42
