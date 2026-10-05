@@ -218,3 +218,20 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+
+# MLflow
+mlruns/
+
+**/mlruns/
+mlflow.db
+**/mlflow.db
+
+# Weights & Biases
+wandb/
+**/wandb/
+
+# Modelos generados localmente
+results/modelos/
+
+# Exportaciones de notebooks
+notebooks/*.html
