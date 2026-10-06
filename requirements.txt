@@ -1,8 +1,10 @@
-pandas
-numpy
-matplotlib
-ucimlrepo
-wandb
-jupyter
+pandas==3.0.6
+numpy==2.5.3
+matplotlib==3.11.2
+ucimlrepo==0.0.7
+wandb==0.30.0
+jupyter==1.1.1
 mlflow==3.16.1
 scikit-learn==1.9.1
+joblib==1.6.0
+ipykernel==7.4.0

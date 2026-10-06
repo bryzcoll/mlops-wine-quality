@@ -1,0 +1,2 @@
+experimento_seleccionado,n_estimators,max_depth,min_samples_split,min_samples_leaf,random_state,mae_prueba,rmse_prueba,r2_prueba
+10,300,,5,2,42,0.5341955046832867,0.6896749913743754,0.38592117348894417
