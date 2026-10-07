@@ -1,0 +1,3 @@
+Coevaluación
+
+Ambos estudiantes, Joseph y Bryan, han colaborado de manera equitativa en el desarrollo del siguiente trabajo. Se han reportado mutuamente los puntos en los que se apoyaron en la IA para declararlos en la política de uso de IA adjuntada en el README, y han compartido la revisión completa del repositorio y de los productos entregables. Las tareas se han repartido de común acuerdo y el trabajo se ha desarrollado con el mejor de los ánimos.
