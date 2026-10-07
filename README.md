@@ -8,10 +8,20 @@ La herramienta principal utilizada es **MLflow**, comparada con **Weights & Bias
 
 ---
 
-## Integrantes
+## Equipo y roles
 
-- Bryan Macas
-- Joseph Sangurima
+| Integrante | Rol principal | Aportes |
+|---|---|---|
+| Bryan Macas | Coordinación, reproducibilidad y documentación | Estructura inicial del repositorio, configuración del entorno, prueba mínima de MLflow, documentación de errores y soluciones, revisión del README e integración de entregables. |
+| Joseph Sangurima | Desarrollo del pipeline y experimentación MLOps | Implementación y ampliación del pipeline, experimentos con MLflow y W&B, registro de métricas, versionado de datos y modelos, y generación de artefactos y resultados comparativos. |
+
+### Responsabilidades compartidas
+
+- revisión del código y de los resultados;
+- interpretación de las métricas;
+- verificación de la reproducibilidad;
+- elaboración del material educativo;
+- preparación del video y de la socialización.
 
 ---
 
@@ -107,6 +117,12 @@ Además, W&B Artifacts se utiliza para:
 - registrar el mejor modelo;
 - mantener trazabilidad entre datos, ejecuciones y modelos.
 
+Evidencias en W&B:
+
+- [Experimentos de Random Forest](https://wandb.ai/bryzcoll-universidad-de-cuenca/wine-quality-random-forest)
+- [Benchmark de sobrecarga](https://wandb.ai/bryzcoll-universidad-de-cuenca/wine-quality-overhead-benchmark)
+- [Versionado de datasets y modelos](https://wandb.ai/bryzcoll-universidad-de-cuenca/wine-quality-random-forest-artifacts)
+
 ---
 
 ## Métricas
@@ -131,7 +147,7 @@ Todos los experimentos utilizaron:
 
 - el mismo dataset;
 - la misma etapa de limpieza;
-- la misma división entrenamiento/prueba;
+- la misma partición estratificada de entrenamiento/validación/prueba (60/20/20);
 - la misma semilla aleatoria;
 - las mismas métricas de evaluación.
 
@@ -143,25 +159,27 @@ Esto permite realizar una comparación directa entre ambas herramientas.
 
 ## Mejor experimento
 
-El mejor resultado correspondió al **experimento 9**.
+El mejor resultado de validación correspondió al **experimento 10**.
 
 Configuración:
 
 ```text
-n_estimators = 200
+n_estimators = 300
 max_depth = None
-min_samples_split = 2
+min_samples_split = 5
 min_samples_leaf = 2
 random_state = 42
 ```
 
 Resultados obtenidos:
 
-| Métrica | Resultado |
-|---|---:|
-| MAE | 0.507986 |
-| RMSE | 0.671642 |
-| R² | 0.398665 |
+| Métrica | Validación para selección | Prueba final aislada |
+|---|---:|---:|
+| MAE | 0.535146 | 0.534196 |
+| RMSE | 0.688779 | 0.689675 |
+| R² | 0.387516 | 0.385921 |
+
+El R² de prueba indica que el modelo explica aproximadamente el 38.59 % de la variabilidad observada en la calidad del vino. Por tanto, su capacidad predictiva es moderada. El objetivo principal del proyecto no fue optimizar exhaustivamente el modelo, sino demostrar un flujo reproducible de seguimiento, comparación y versionado de experimentos.
 
 ---
 
@@ -170,7 +188,7 @@ Resultados obtenidos:
 Después de identificar el mejor experimento, se volvió a entrenar el modelo utilizando:
 
 - el mismo dataset;
-- la misma división entrenamiento/prueba;
+- la misma división entrenamiento/validación;
 - los mismos hiperparámetros;
 - la misma semilla aleatoria.
 
@@ -182,7 +200,7 @@ El notebook verifica este comportamiento mediante:
 Experimento reproducible: True
 ```
 
-Por tanto, el mejor experimento pudo ser reproducido correctamente dentro del entorno utilizado.
+Por tanto, el mejor experimento pudo reproducirse correctamente dentro del entorno utilizado. Después de esta comprobación se reentrenó su configuración con todo el conjunto de desarrollo (80 %) y se evaluó una sola vez sobre la prueba aislada (20 %).
 
 ---
 
@@ -215,11 +233,13 @@ Resultados de la última ejecución:
 
 | Herramienta | Mediana | Sobrecarga |
 |---|---:|---:|
-| Sin tracking | 0.3408 s | 0 % |
-| MLflow | 0.3671 s | 7.73 % |
-| Weights & Biases | 4.4084 s | 1193.66 % |
+| Sin tracking | 0.7557 s | 0 % |
+| MLflow | 0.7514 s | -0.58 % |
+| Weights & Biases | 4.1075 s | 443.51 % |
 
 Los resultados representan únicamente el entorno y la configuración utilizados durante este proyecto.
+
+La diferencia de -0.58 % de MLflow es pequeña y puede atribuirse a la variabilidad temporal de las cinco repeticiones; no demuestra que el tracking acelere el entrenamiento. En este benchmark no se detectó una sobrecarga relevante de MLflow.
 
 MLflow trabajó con almacenamiento local.
 
@@ -239,11 +259,11 @@ Por este motivo, los resultados no permiten concluir que W&B sea universalmente 
 
 También se midió el esfuerzo necesario para integrar el seguimiento básico de experimentos.
 
-Para evitar que el resultado dependa del formato del código o del número de saltos de línea, se utilizó como unidad de medida el número de llamadas específicas a las APIs de tracking.
+Para evitar que el resultado dependa del formato del código o del número de saltos de línea, se utilizó como unidad de medida el número de métodos distintos de las APIs necesarios para instrumentar el seguimiento básico: inicialización, registro de configuración y registro de métricas.
 
 ### MLflow
 
-Se utilizaron tres llamadas principales:
+Se utilizaron tres métodos principales:
 
 ```python
 mlflow.start_run()
@@ -254,12 +274,12 @@ mlflow.log_metrics()
 Total:
 
 ```text
-3 llamadas API
+3 métodos API
 ```
 
 ### Weights & Biases
 
-Se utilizaron dos llamadas principales:
+Se utilizaron dos métodos principales:
 
 ```python
 wandb.init(config=...)
@@ -269,17 +289,17 @@ run.log()
 Total:
 
 ```text
-2 llamadas API
+2 métodos API
 ```
 
 Resumen:
 
-| Herramienta | Llamadas API |
+| Herramienta | Métodos API distintos |
 |---|---:|
 | MLflow | 3 |
 | Weights & Biases | 2 |
 
-Dentro del pipeline desarrollado, W&B necesitó una llamada menos para instrumentar el seguimiento básico.
+Dentro del pipeline desarrollado, W&B necesitó un método específico menos para instrumentar el seguimiento básico.
 
 Este resultado no significa que W&B sea universalmente más sencillo que MLflow.
 
@@ -311,6 +331,8 @@ La versión del dataset incluye:
 - número de columnas;
 - variable objetivo;
 - número de duplicados eliminados;
+- proporciones de entrenamiento, validación y prueba;
+- semilla utilizada para la partición;
 - hash SHA-256.
 
 La versión utilizada en el proyecto corresponde a:
@@ -330,13 +352,13 @@ Esto permite conocer exactamente qué versión de los datos fue utilizada durant
 
 ## Versionado del modelo
 
-Después de reproducir el mejor experimento, el modelo se almacena localmente como:
+Después de reproducir la configuración seleccionada, el modelo se reentrena con todo el conjunto de desarrollo y se almacena localmente como:
 
 ```text
 results/modelos/random_forest_mejor.joblib
 ```
 
-Posteriormente se registra en Weights & Biases como Artifact:
+El modelo final también se registra en MLflow y en Weights & Biases como Artifact:
 
 ```text
 random-forest-wine-quality
@@ -375,19 +397,22 @@ mlops-wine-quality/
 │       └── wine_quality_clean_metadata.json
 │
 ├── notebooks/
+│   ├── 00_mlflow_minimo.ipynb
 │   └── wine_quality_mlops.ipynb
 │
 ├── results/
 │   ├── metrics/
 │   │   ├── mlflow_experimentos.csv
 │   │   ├── wandb_experimentos.csv
-│   │   └── comparacion_sobrecarga.csv
+│   │   ├── comparacion_sobrecarga.csv
+│   │   └── evaluacion_final.csv
 │   │
-│   └── screenshots/
+│   └── screenshots/                # evidencias de errores
 │
 └── docs/
     ├── errores.md
-    └── referencias.md
+    ├── referencias.md
+    └── registro.md
 ```
 
 Los directorios generados automáticamente por MLflow, W&B y los modelos locales se encuentran excluidos mediante `.gitignore`.
@@ -476,7 +501,13 @@ Puede ejecutarse utilizando:
 - Jupyter Notebook;
 - JupyterLab.
 
-Se recomienda ejecutar las celdas en orden desde el inicio.
+Las rutas se resuelven desde la raíz del repositorio, por lo que se recomienda iniciar Jupyter desde esa carpeta:
+
+```bash
+jupyter lab notebooks/wine_quality_mlops.ipynb
+```
+
+Se recomienda reiniciar el kernel y ejecutar todas las celdas en orden desde el inicio.
 
 El flujo general del notebook es:
 
@@ -489,7 +520,7 @@ Limpieza
         ↓
 Eliminación de duplicados
         ↓
-División train/test
+Partición train/validation/test (60/20/20)
         ↓
 Modelo baseline
         ↓
@@ -498,6 +529,10 @@ Modelo baseline
 Selección del mejor experimento
         ↓
 Reproducción
+        ↓
+Reentrenamiento con el conjunto de desarrollo
+        ↓
+Evaluación única sobre prueba aislada
         ↓
 10 experimentos con W&B
         ↓
@@ -526,13 +561,15 @@ La autenticación puede realizarse desde la terminal:
 wandb login
 ```
 
-El notebook también contiene:
+En modo `online`, el notebook también ejecuta:
 
 ```python
 wandb.login()
 ```
 
 La clave API no debe almacenarse directamente dentro del notebook ni versionarse en Git.
+
+Para comprobar el pipeline sin sincronizar nuevas corridas se puede iniciar Jupyter con `WANDB_MODE=offline`; el modo utilizado queda impreso en la ejecución.
 
 ---
 
@@ -561,6 +598,7 @@ Los resultados resumidos de los experimentos son almacenados en:
 results/metrics/mlflow_experimentos.csv
 results/metrics/wandb_experimentos.csv
 results/metrics/comparacion_sobrecarga.csv
+results/metrics/evaluacion_final.csv
 ```
 
 Estos archivos permiten consultar los resultados sin necesidad de volver a ejecutar todos los experimentos.
@@ -572,7 +610,8 @@ Estos archivos permiten consultar los resultados sin necesidad de volver a ejecu
 Para favorecer la reproducibilidad se aplicaron las siguientes prácticas:
 
 - semilla fija `random_state=42`;
-- misma división de entrenamiento y prueba;
+- partición estratificada fija de entrenamiento, validación y prueba;
+- aislamiento del conjunto de prueba hasta la evaluación final;
 - mismas configuraciones para MLflow y W&B;
 - registro de hiperparámetros;
 - registro de métricas;
@@ -598,11 +637,7 @@ Estos valores pueden variar debido a:
 
 Durante el desarrollo se registraron diferentes errores y las soluciones aplicadas.
 
-La documentación se encuentra en:
-
-```text
-docs/errores.md
-```
+La documentación se encuentra en [docs/errores.md](docs/errores.md).
 
 Entre los problemas documentados se encuentran:
 
@@ -620,11 +655,7 @@ La documentación de estos errores forma parte del proceso de reproducibilidad y
 
 ## Referencias
 
-Las fuentes utilizadas para el desarrollo del proyecto se encuentran en:
-
-```text
-docs/referencias.md
-```
+Las fuentes oficiales, técnicas y académicas utilizadas para el desarrollo del proyecto se encuentran en [docs/referencias.md](docs/referencias.md).
 
 Se incluyen:
 
@@ -680,8 +711,9 @@ En particular:
 - MLflow utilizó almacenamiento local;
 - W&B utilizó sincronización remota;
 - el rendimiento puede cambiar en otros equipos o redes;
-- el número de llamadas API no representa por sí solo la complejidad completa de una herramienta;
+- el número de métodos API distintos no representa por sí solo la complejidad completa de una herramienta;
 - Random Forest fue utilizado como modelo experimental y no se realizó una comparación exhaustiva entre diferentes algoritmos de Machine Learning.
+- la selección utiliza una única partición de validación; como trabajo futuro se recomienda validación cruzada anidada para reducir la dependencia de una sola partición.
 
 Por tanto, los resultados permiten comparar ambas herramientas dentro del entorno evaluado, pero no establecer que una herramienta sea universalmente superior a la otra.
 
@@ -691,16 +723,16 @@ Por tanto, los resultados permiten comparar ambas herramientas dentro del entorn
 
 El proyecto permitió implementar un pipeline reproducible de experimentación con Machine Learning utilizando MLflow y Weights & Biases.
 
-Se realizaron diez configuraciones experimentales de Random Forest y se identificó el experimento 9 como la mejor configuración según RMSE.
+Se realizaron diez configuraciones experimentales de Random Forest y se identificó el experimento 10 como la mejor configuración según el RMSE de validación.
 
-El mejor experimento pudo ser reproducido correctamente utilizando la misma configuración, datos, división y semilla.
+El mejor experimento pudo reproducirse utilizando la misma configuración, datos, división y semilla. La configuración seleccionada obtuvo RMSE 0.688779 en validación y 0.689675 en la prueba final aislada.
 
 También se implementó versionado explícito de datos y modelos.
 
 En la comparación experimental:
 
 - MLflow presentó menor sobrecarga en el entorno local evaluado;
-- W&B necesitó una llamada menos a la API para realizar el tracking básico;
+- W&B necesitó un método específico menos para realizar el tracking básico;
 - W&B proporcionó una interfaz web centralizada;
 - MLflow ofreció un flujo ligero para seguimiento local;
 - ambas herramientas permitieron mantener trazabilidad de los experimentos.

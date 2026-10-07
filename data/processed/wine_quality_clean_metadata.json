@@ -6,5 +6,11 @@
     "columnas": 12,
     "variable_objetivo": "quality",
     "duplicados_eliminados": 1179,
-    "sha256": "606ed9b3745115ee08e85f4690c080eeea0c2d8a33201ec1f659091524f74bb2"
+    "particion": {
+        "entrenamiento": 0.6,
+        "validacion": 0.2,
+        "prueba": 0.2
+    },
+    "random_state": 42,
+    "sha256": "b22fdcb4cf198b4edbaf59b4200ef829f8238bf350cdc719649247bee507a5ab"
 }
